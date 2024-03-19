@@ -1,0 +1,21 @@
+To Do:
+
+- Allow for settings to overide defaults in .env file
+
+- About
+   - Provide description of project
+   - Write simple usage docs
+   - Provide links to azure docs
+
+- Finish login flow
+   - Need to install OpenSSL for local dev
+   - Implement simple roles based access control
+      - Use Azure Stogage Tables?
+
+- Save summary if logged in
+      - Use Azure Storage Tables?
+
+- Chat needs full logic
+   - Create prompts
+   - Will search in Video Indexer be good enough for RAG or do we need AI Search
+   - Create backend & select an orquestrator
