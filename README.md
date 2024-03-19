@@ -34,7 +34,7 @@ Navigate to Settings and add an API endpoint and key.
 
 API should provide two function. 1. Create a new thread 2. Send a message. Bellow is the signatures of the APIa
 
-
+```
 POST http://127.0.0.1:8000/thread
 Content-Type: application/json
 access_token: yourkeyhere
@@ -49,3 +49,4 @@ access_token: yourkeyhere
     "message": "Your message / question here",
     "thread_id": "thread_idhere"
 }
+```
