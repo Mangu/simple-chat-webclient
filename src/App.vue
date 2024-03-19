@@ -42,7 +42,7 @@
   }
   .page-container {
     margin-top: 20px;
-    padding-left: 0;
-    margin-left: 0;   
+    padding-left: 5;
+    margin-left: 5;   
   }
 </style>
