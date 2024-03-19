@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Chat from './views/Chat.vue';
 import Settings from './views/Settings.vue';
-import { UserAgentApplication } from 'msal';
 
 Vue.use(Router); 
 
