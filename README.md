@@ -1,6 +1,6 @@
-# Vue.js Azure Video Indexer Sample Application
+# OpenAI Assitant UI sample
 
-This is a Vue.js application that provides a user interface for generating additonal insights on Azure Video Indexer indexed videos. The UI allows you to modify the prompts that generate scene analyzist and summary.
+This is a Vue.js application that provides a user interface for a OpenAI Asisstant 
 
 ## Installation 
 
@@ -30,23 +30,23 @@ npm run serve
 
 Then, open your web browser and navigate to http://localhost:8080.
 
-Features
-Logs Prompt: A form field that allows the user to enter a logs prompt.
-Summary Prompt: A form field that allows the user to enter a summary prompt.
-Model Temperature: A slider that allows the user to adjust the model temperature.
-Environment Variables
-This project uses the following environment variables:
+Navigate to Settings and add an API endpoint and key.
 
-VUE_APP_CLIENT_ID: Your client ID.
-VUE_APP_API_ENDPOINT: The API endpoint.
-VUE_APP_ACCOUNT_ID: Your account ID.
-VUE_APP_LOCATION: The location.
-VUE_APP_SUBSCRIPTION_KEY: Your subscription key.
-VUE_APP_AZURE_OPEN_AI_KEY: Your Azure Open AI key.
-VUE_APP_AOAI_ENDPOINT: The Azure Open AI endpoint.
-To set these variables, create a file named .env in the root of your project and add the variables like this:
+API should provide two function. 1. Create a new thread 2. Send a message. Bellow is the signatures of the APIa
 
-Replace your_client_id, your_api_endpoint, etc. with your actual values.
+```
+POST http://127.0.0.1:8000/thread
+Content-Type: application/json
+access_token: yourkeyhere
+ 
+###
 
-Contributing
-Contributions are always welcome! 
+POST http://127.0.0.1:8000/message
+Content-Type: application/json
+access_token: yourkeyhere
+
+{
+    "message": "Your message / question here",
+    "thread_id": "thread_idhere"
+}
+```
