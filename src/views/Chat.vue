@@ -37,13 +37,15 @@
     methods: {
       async sendMessage() {
         this.isSending = true;
-        this.messages.unshift({ text: this.userInput, sender: 'user' });
+        let message = this.userInput;
+        this.userInput = '';
+        this.messages.unshift({ text: message, sender: 'user' });
        
         let response = '';
 
         try {
           response = await assistantService.postMessage(this.userInput, this.thread);
-          this.userInput = '';
+          
           if (response == null) {
             response = "Sorry, I'm having trouble communicating with the assistant. Create a new thread and try again.";
           }
