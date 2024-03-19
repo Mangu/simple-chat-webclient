@@ -14,6 +14,8 @@
     <div class="button-container">
       <button @click="sendMessage" class="btn btn-primary">Go</button>
       <button @click="clearMessage" class="btn btn-primary">Clear</button>
+      <button @click="getThread" class="btn btn-primary">New Thread</button>
+      <div class="status-container">{{ status }}</div>
     </div>
   </div>
 </template>  
@@ -24,6 +26,7 @@
   export default {
     name: 'Chat',
     thread:'',
+    status: '',
     data() {
       return {
         userInput: '',
@@ -35,13 +38,14 @@
       async sendMessage() {
         this.isSending = true;
         this.messages.unshift({ text: this.userInput, sender: 'user' });
-        this.userInput = '';
+       
         let response = '';
 
         try {
           response = await assistantService.postMessage(this.userInput, this.thread);
+          this.userInput = '';
           if (response == null) {
-            response = "Sorry, I'm having trouble communicating with the assistant. Reload to try a new thread.";
+            response = "Sorry, I'm having trouble communicating with the assistant. Create a new thread and try again.";
           }
           console.log('Response:', response);
           this.messages.unshift({ text: response, sender: 'assistant' });
@@ -56,10 +60,14 @@
         this.userInput = '';        
       },
       async getThread() {
-        if(this.thread == null || this.thread==''){
-          this.thread = await assistantService.getThread();
-          console.log('Thread:', this.thread);
-        }  
+        try {
+          this.thread = await assistantService.getThread();         
+          this.status = 'Thread: ' + this.thread;
+        } catch (error) {
+          console.log('Error:', error);
+          this.status = 'Error: ' + error;
+        }            
+        this.status = 'Thread: ' + this.thread + ' ';
       }
     },
     async mounted() {
@@ -71,8 +79,12 @@
 <style scoped>
   .button-container {
     display: flex;
-    justify-content: space-between;
+    margin-right: 10px;
+    
   }
+  .button-container button {
+  margin-right: 10px;
+}
   .page-container {
     display: flex;
     flex-direction: column;
@@ -105,5 +117,14 @@
   .assistant {
       background-color: #252bdc;       
       color: #ffffff;
+  }
+  .thinking-animation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+  }
+  .status-container {
+    background-color: beige;
   }
 </style>
