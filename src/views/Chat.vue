@@ -30,6 +30,7 @@
     data() {
       return {
         userInput: '',
+        status: '',
         messages: [],
         isSending: false,
       };

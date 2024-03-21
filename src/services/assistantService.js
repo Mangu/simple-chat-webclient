@@ -1,16 +1,20 @@
 import axios from 'axios';
+import https from 'https';
 
-let endpoint = localStorage.getItem('apiEndpoint');
-let key = localStorage.getItem('apiEndpointKey');
+let endpoint = localStorage.getItem('Endpoint');
+let key = localStorage.getItem('EndpointKey');
 let assistantInstructions = localStorage.getItem('assistantInstructions');
-     
+  
+const instance = axios.create();
 
 export default {  
+
   
   async getThread() {
-     console.log("getThread " + endpoint);
+    console.log("key: " + key);
+    console.log("endpoint: " + endpoint);
     try {
-        const response = await axios.post(endpoint+"/thread", {},
+        const response = await instance.post(endpoint+"/thread", {},
         {
           headers: {
             access_token: key,
@@ -28,10 +32,12 @@ export default {
   },
 
   async postMessage(message, thread_id) {
+    console.log("key: " + key);
+    console.log("endpoint: " + endpoint);
     
     try {
-      const response = await axios.post(endpoint+"/message",
-        {
+      const response = await instance.post(endpoint+"/message",
+      {
           message:message,
           thread_id: thread_id,
         },

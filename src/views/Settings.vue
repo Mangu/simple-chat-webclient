@@ -14,10 +14,7 @@
                 <label>Assistant REST API Key</label>
                 <input v-model="apiEndpointKey" class="form-control long-input" placeholder="API Endpoint">            
             </div>                  
-            <div class="form-group">
-                <label>Use settings values</label>
-                <input type="checkbox" v-model="useSettings" class="form-control checkbox-left" >
-            </div> 
+             
             <div class="form-group full-width">          
                 <button type="submit" class="btn btn-primary">Save</button> 
             </div>
@@ -77,7 +74,7 @@
                 this.assistantInstructions = DOMPurify.sanitize(newVal);
             },
             apiEndpoint(newVal) {
-                this.apiEndpoint = DOMPurify.sanitize(newVal);
+                //this.apiEndpoint = DOMPurify.sanitize(newVal);
             },
             apiEndpointKey(newVal) {
                 this.apiEndpointKey = DOMPurify.sanitize(newVal);
@@ -85,14 +82,15 @@
         },  
         created() {
             this.assistantInstructions = localStorage.getItem('assistantInstructions') || '';
-            this.apiEndpoint = localStorage.getItem('apiEndpoint') || '';
-            this.apiEndpointKey = localStorage.getItem('apiEndpointKey') || '';            
+            this.apiEndpoint = localStorage.getItem('Endpoint') || '';
+            this.apiEndpointKey = localStorage.getItem('EndpointKey') || '';
+            
         },
         methods: {
             saveSettings() {
                 localStorage.setItem('assistantInstructions', this.assistantInstructions);  
-                localStorage.setItem('apiEndpoint', this.apiEndpoint);  
-                localStorage.setItem('apiEndpointKey', this.apiEndpointKey);                              
+                localStorage.setItem('Endpoint', this.apiEndpoint);  
+                localStorage.setItem('EndpointKey', this.apiEndpointKey);                              
             },
         },
     };
