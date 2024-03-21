@@ -45,7 +45,7 @@
         let response = '';
 
         try {
-          response = await assistantService.postMessage(this.userInput, this.thread);
+          response = await assistantService.postMessage(message, this.thread);
           
           if (response == null) {
             response = "Sorry, I'm having trouble communicating with the assistant. Create a new thread and try again.";
