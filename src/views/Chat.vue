@@ -2,12 +2,12 @@
   <div class="page-container">
     <h3>Chat</h3>
     <div v-if="isSending" class="thinking-animation">Thinking...</div>
-    <div class="messages">
-      <div v-for="(message, index) in messages" :key="index" :class="`chat-bubble ${message.sender}`">
-        <p>{{ message.text }}</p>
-        <span class="sender">{{ message.sender }}</span>
-      </div>
-    </div>    
+      <div class="messages" ref="messages">
+        <div v-for="(message, index) in messages" :key="index" :class="`chat-bubble ${message.sender}`">
+          <p v-html="message.text"></p>
+          <span class="sender">{{ message.sender }}</span>
+        </div>
+      </div>    
     <div class="form-group">
         <input v-model="userInput" class="form-control long-input" placeholder="How can I help you today?" @keyup.enter="sendMessage">
     </div>
@@ -18,44 +18,48 @@
       <div class="status-container">{{ status }}</div>
     </div>
   </div>
-</template>  
+</template> 
 
 <script>
-
-  import assistantService from '../services/assistantService';// replace with the actual path to your module
+  import assistantService from '../services/assistantService';
+ 
   export default {
     name: 'Chat',
-    thread:'',
-    status: '',
     data() {
       return {
         userInput: '',
         status: '',
         messages: [],
         isSending: false,
+       
       };
     },
     methods: {
       async sendMessage() {
         this.isSending = true;
-        let message = this.userInput;
+        let message = this.userInput 
         this.userInput = '';
-        this.messages.unshift({ text: message, sender: 'user' });
+        this.messages.push({ text: message, sender: 'user' });
+        this.scrollToBottom();
        
         let response = '';
 
-        try {
-          response = await assistantService.postMessage(message, this.thread);
+        try 
+        {
+          response = await assistantService.postMessage(message + ' thread_id: ' + this.thread, this.thread);
           
           if (response == null) {
             response = "Sorry, I'm having trouble communicating with the assistant. Create a new thread and try again.";
           }
+
           console.log('Response:', response);
-          this.messages.unshift({ text: response, sender: 'assistant' });
-        } catch (error) {
-          console.log('Error:', error);
+          this.messages.push({ text: response, sender: 'assistant' });
+          this.scrollToBottom();
+        }
+        catch (error) {
+            console.log('Error:', error);
         } finally {
-          this.isSending = false;
+            this.isSending = false;
         }
       },
       clearMessage() {
@@ -71,7 +75,12 @@
           this.status = 'Error: ' + error;
         }            
         this.status = 'Thread: ' + this.thread + ' ';
-      }
+      },
+      scrollToBottom() {
+      this.$nextTick(() => {
+        this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
+      });
+    },
     },
     async mounted() {
           await this.getThread();
@@ -82,12 +91,11 @@
 <style scoped>
   .button-container {
     display: flex;
-    margin-right: 10px;
-    
+    margin-right: 10px;    
   }
   .button-container button {
-  margin-right: 10px;
-}
+    margin-right: 10px;
+  }
   .page-container {
     display: flex;
     flex-direction: column;
@@ -96,7 +104,9 @@
   }
   .messages {
     flex: 1;
-    overflow-y: auto; /* This will add a scrollbar if the messages overflow the div */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column; /* Changed from column-reverse to column */
   }
   .chat-bubble {
     background-color: #f0f0f0;
@@ -115,11 +125,11 @@
     font-weight: bold;
   }
   .user {
-      background-color: #eeeeee; 
+     background-color: #eeeeee; 
   }
   .assistant {
-      background-color: #252bdc;       
-      color: #ffffff;
+    background-color: #252bdc;       
+    color: #ffffff;
   }
   .thinking-animation {
     display: flex;

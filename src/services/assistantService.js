@@ -11,8 +11,7 @@ export default {
 
   
   async getThread() {
-    console.log("key: " + key);
-    console.log("endpoint: " + endpoint);
+    
     try {
         const response = await instance.post(endpoint+"/thread", {},
         {
